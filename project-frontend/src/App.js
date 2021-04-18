@@ -5,6 +5,8 @@ import { Route, Switch } from 'react-router-dom';
 import MoonLoader from 'react-spinners/MoonLoader';
 // Pages
 import Landing from './pages/Landing';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
 
 class App extends Component {
   
@@ -25,6 +27,8 @@ class App extends Component {
       routes =  (
         <Switch>
           <Route path="/" exact component={Landing} />
+          <Route path="/signin" exact component={SignIn} />
+          <Route path="/signup" exact component={SignUp} />
         </Switch>
       );
     }
