@@ -1,0 +1,144 @@
+.classroom {
+  margin: 120px 48px auto 48px;
+  padding-bottom: 50px;
+}
+
+.lectures {
+  margin-bottom: 60px;
+}
+
+.lectures__heading {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 33px;
+  padding-left: 4px;
+}
+
+.lectures__frame__inner {
+  padding-bottom: 10px;
+  padding-left: 4px;
+  margin-top: 15px;
+}
+
+.lectures__frame__inner {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.lectures__frame__inner::-webkit-scrollbar {
+  display: none;
+}
+
+.lectures__frame__inner .lec__card {
+  flex: 0 0 auto;
+}
+
+.lectures__add {
+  width: 300px;
+  height: 230px;
+  background: #FFFFFF;
+  border: 1px solid #DADCE0;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  z-index: 100;
+  margin-right: 48px;
+}
+
+.lectures__add__plus {
+  position: relative;
+  width: 85px;
+  height: 216px;
+  left: 107px;
+  top: 7px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 200;
+  font-size: 144px;
+  line-height: 216px;
+  display: flex;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.lectures__lec {
+  width: 300px;
+  height: 230px;
+  background: #FFFFFF;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  margin-right: 48px;
+}
+
+.material {
+  width: 300px;
+  height: 230px;
+  background: #FFFFFF;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  margin-right: 48px;
+  border: 1px solid #DADCE0;
+}
+
+.material-file-icon {
+  display: block;
+  margin: 45px auto 25px auto;
+}
+
+.material-file-name {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 27px;
+  color: #000000;
+  text-align: center;
+}
+
+.assignment {
+  width: 300px;
+  height: 230px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 20px;
+  background: #FFFFFF;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  margin-right: 48px;
+  border: 1px solid #DADCE0;
+}
+
+.assignment-title {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 27px;
+  color: #000000;
+}
+
+.assignment-mark {
+  font-family: Abhaya Libre;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #000000;
+  margin-top: 15px;
+}
+
+.assignment-due {
+  font-family: Abhaya Libre;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #000000;
+  margin-top: 85px;
+}
