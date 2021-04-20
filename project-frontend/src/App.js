@@ -8,6 +8,7 @@ import Landing from './pages/Landing';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
+import PageNotFound from './pages/404';
 
 class App extends Component {
   
@@ -26,6 +27,8 @@ class App extends Component {
           <Redirect path="/signin" exact to="/" />
           <Redirect path="/signup" exact to="/" />
           <Redirect path="/register" exact to="/" />
+          <Route path="/" exact component={Home} />
+          <Route path="*" component={PageNotFound} />
         </Switch>
       );
     } else {
@@ -36,6 +39,7 @@ class App extends Component {
           <Redirect path="/login" exact to ="/signin" />
           <Route path="/signup" exact component={SignUp} />
           <Redirect path="/register" exact to ="/signup" />
+          <Route path="*" component={PageNotFound} />
         </Switch>
       );
     }
