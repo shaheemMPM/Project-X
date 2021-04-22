@@ -1,0 +1,69 @@
+.upload-lecture {
+  margin: 120px 150px auto 150px;
+  padding-bottom: 50px;
+}
+
+.upload-header {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 33px;
+  color: black;
+  margin-bottom: 30px;
+}
+
+.desc-textarea {
+  margin-top: 10px !important;
+  resize: none;
+  height: 80px;
+}
+
+.desc-textarea::placeholder {
+  line-height: 80px;
+}
+
+.select-file {
+  border: none;
+}
+
+.select-file-label {
+  margin-bottom: 20px;
+}
+
+.footnote {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 22px;
+  color: #999999;
+}
+
+.footnote span {
+  font-weight: 600;
+}
+
+.upload-button {
+  width: 330px;
+  height: 50px;
+  background: linear-gradient(180deg, #374BE6 0%, #4600C8 100%);
+  border-radius: 25px;
+}
+
+.ip-bouded {
+  width: 100%;
+}
+
+.ip-outer {
+  display: inline-block;
+  width: 50%;
+}
+
+.chapter-outer {
+  padding-right: 5px;
+}
+
+.mark-outer {
+  padding-left: 5px;
+}
