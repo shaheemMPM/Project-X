@@ -3,7 +3,7 @@ import Nav from '../core/components/UploadItem/nav';
 // import style
 import '../public/UploadItem/main.css';
 
-function UploadLecture() {
+const UploadLecture = () => {
   return (
     <>
       <Nav />

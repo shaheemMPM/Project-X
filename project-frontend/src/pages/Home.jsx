@@ -4,7 +4,7 @@ import Classroom from '../core/components/Home/classroom';
 
 import '../public/Home/css/classrooms.css';
 
-function Home() {
+const Home = () => {
   return (
     <>
       <Nav />

@@ -1,6 +1,6 @@
 import '../public/404/404.css';
 
-function PageNotFound () {
+const PageNotFound = () => {
   return (
     <div id="main">
       <div className="fof">

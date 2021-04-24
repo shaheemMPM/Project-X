@@ -4,7 +4,7 @@ import '../../../public/Home/css/classrooms.css';
 import bg from '../../../public/Home/images/img_code.png';
 import user from '../../../public/Home/images/user.png';
 
-function Classroom() {
+const Classroom = () => {
   return (
     <div className="card__classroom">
       <div className="classroom__card__top" style={{backgroundImage: `url(${bg})`}}>

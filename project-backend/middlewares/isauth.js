@@ -11,11 +11,8 @@ module.exports = (req, res, next) => {
     if (!token) {
       throw new Error('Authentication failed!');
     }
-    const decodedToken = jwt.verify(token, 'nexero_super_boys_supersecret#key');
-    req.userData = { userId: decodedToken.userId, mobile: decodedToken.mobile };
-    if (decodedToken.role !== "user") {
-      throw new Error('Authentication failed!');
-    }
+    const decodedToken = jwt.verify(token, 'you_did_not_see_that_right#key');
+    req.userData = { userId: decodedToken.userId, email: decodedToken.email, username: decodedToken.username, name: decodedToken.name };
     next();
   } catch (err) {
     const error = new HttpError('Authentication failed!', 403);

@@ -1,6 +1,6 @@
 import Assignment from './assignment';
 
-function Assignments() {
+const Assignments = () => {
   return (
     <div className="lectures">
       <h1 className="lectures__heading">Assignments</h1> 

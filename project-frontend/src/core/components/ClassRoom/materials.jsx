@@ -1,6 +1,6 @@
 import Material from './material';
 
-function Materials() {
+const Materials = () => {
   return (
     <div className="lectures">
       <h1 className="lectures__heading">Materials</h1> 

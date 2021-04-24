@@ -9,7 +9,7 @@ function getNow () {
   return now.toISOString().slice(0, -1);
 }
 
-function UploadAssignment() {
+const UploadAssignment = () => {
   return (
     <>
       <Nav />

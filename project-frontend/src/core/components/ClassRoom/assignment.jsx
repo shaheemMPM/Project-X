@@ -1,6 +1,6 @@
 import '../../../public/Classroom/main.css';
 
-function Assignment() {
+const Assignment = () => {
   return (
     <div className="assignment lec__card">
       <h1 className="assignment-title">Introduction to Data Mining</h1>

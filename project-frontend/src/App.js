@@ -1,5 +1,5 @@
 // Core Modules
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 // Dependancy Modules
 import MoonLoader from 'react-spinners/MoonLoader';
@@ -16,16 +16,14 @@ import UploadAssignment from './pages/UploadAssignment';
 import Lecture from './pages/Lecture';
 import PageNotFound from './pages/404';
 
-class App extends Component {
+const App = () => {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   
-  state = { 
-    isLoggedIn: true,
-    isLoading: false
-  }
   
-  render() { 
     let routes;
-    if (this.state.isLoggedIn) {
+    if (isLoggedIn) {
       routes =  (
         <Switch>
           <Route path="/" exact component={Home} />
@@ -56,7 +54,7 @@ class App extends Component {
     }
     return (    
       <>
-      {this.state.isLoading ? 
+      {isLoading ? 
 				<MoonLoader
 					css={{ display: "block", margin: "25vh auto", borderColor: "red" }}
 					size={150}
@@ -68,7 +66,6 @@ class App extends Component {
 			}
       </>
     );
-  }
 }
  
-export default App;
+export default React.memo(App);

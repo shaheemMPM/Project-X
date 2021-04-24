@@ -1,4 +1,4 @@
-function ChatFrom(props) {
+const ChatFrom = (props) => {
   return (
     <div className="text-block">
       <div className="text-from">

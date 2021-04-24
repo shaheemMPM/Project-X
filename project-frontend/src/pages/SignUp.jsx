@@ -13,7 +13,7 @@ import '../public/SignIn/css/main.css';
 // Images
 import BgImage from '../public/SignIn/images/bg-01.jpg';
 
-function Login() {
+const SingUp = () => {
     return (
         <div className="limiter">
             <div className="container-login100">
@@ -91,4 +91,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default SingUp;

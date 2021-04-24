@@ -4,7 +4,7 @@ import Nav from '../core/components/UploadItem/nav';
 import '../public/UploadItem/main.css';
 
 
-function UploadMaterial() {
+const UploadMaterial = () => {
   return (
     <>
       <Nav />

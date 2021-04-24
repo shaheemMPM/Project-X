@@ -41,7 +41,7 @@ import Team2 from '../public/Landing/images/team-2.png';
 import Team3 from '../public/Landing/images/team-3.png';
 import VideoImg from '../public/Landing/images/video.png';
 
-function landing () {
+const landing = () => {
     return (
         <>
             {/* ==== PRELOADER PART START === */}

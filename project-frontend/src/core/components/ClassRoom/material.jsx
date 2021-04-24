@@ -1,7 +1,7 @@
 import '../../../public/Classroom/main.css';
 import pdf from '../../../public/Classroom/file-pdf.png';
 
-function Material() {
+const Material = () => {
   return (
     <div className="material lec__card">
       <img className="material-file-icon" src={pdf} alt="pdf" />

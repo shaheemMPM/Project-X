@@ -7,7 +7,7 @@ import '../public/Lecture/main.css';
 import TempVideo from '../public/Lecture/temp.mp4';
 import User from '../public/Lecture/user.png';
 
-function Lecture() {
+const Lecture = () => {
   return (
     <>
       <Nav />

@@ -1,6 +1,6 @@
 import Lecture from './lecture';
 
-function Lectures() {
+const Lectures = () => {
   return (
     <div className="lectures">
       <h1 className="lectures__heading">Lectures</h1> 

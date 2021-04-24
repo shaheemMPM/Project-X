@@ -1,6 +1,6 @@
 import '../../../public/Home/css/nav.css';
 
-function Nav() {
+const Nav = () => {
   return (
     <nav className="nav" role="navigation">
       <div className="nav__left">

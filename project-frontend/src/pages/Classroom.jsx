@@ -6,7 +6,7 @@ import Assignments from '../core/components/ClassRoom/assignments';
 // import style
 import '../public/Classroom/main.css';
 
-function Classroom() {
+const Classroom = () => {
   return (
     <>
       <Nav />
