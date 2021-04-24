@@ -12,6 +12,7 @@ import Classroom from './pages/Classroom';
 import UploadLecture from './pages/UploadLecture';
 import UploadMaterial from './pages/UploadMaterial';
 import UploadAssignment from './pages/UploadAssignment';
+import Lecture from './pages/Lecture';
 import PageNotFound from './pages/404';
 
 class App extends Component {
@@ -35,6 +36,7 @@ class App extends Component {
           <Route path="/class/:id/upload-lecture" exact component={UploadLecture} />
           <Route path="/class/:id/upload-material" exact component={UploadMaterial} />
           <Route path="/class/:id/upload-assignment" exact component={UploadAssignment} />
+          <Route path="/class/:id/lecture/:lid" exact component={Lecture} />
           <Route path="*" component={PageNotFound} />
         </Switch>
       );
