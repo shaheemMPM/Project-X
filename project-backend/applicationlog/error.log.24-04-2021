@@ -1,0 +1,4 @@
+{"message":"Could not find the route : /","level":"error"}
+{"message":"Could not find the route : /api/v1/user","level":"error"}
+{"message":"Could not find the route : /api/v1/user","level":"error"}
+{"message":"Invalid inputs passed in user sign up","level":"error"}
