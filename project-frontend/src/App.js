@@ -8,6 +8,7 @@ import Landing from './pages/Landing';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
+import CreateClassroom from './pages/CreateClassroom';
 import Classroom from './pages/Classroom';
 import UploadLecture from './pages/UploadLecture';
 import UploadMaterial from './pages/UploadMaterial';
@@ -37,6 +38,7 @@ class App extends Component {
           <Route path="/class/:id/upload-material" exact component={UploadMaterial} />
           <Route path="/class/:id/upload-assignment" exact component={UploadAssignment} />
           <Route path="/class/:id/lecture/:lid" exact component={Lecture} />
+          <Route path="/create-classroom" exact component={CreateClassroom} />
           <Route path="*" component={PageNotFound} />
         </Switch>
       );
