@@ -1,8 +1,8 @@
 // Components
-import Nav from '../core/components/Home/nav';
-import Classroom from '../core/components/Home/classroom';
+import Nav from "../core/components/Home/nav";
+import Classroom from "../core/components/Home/classroom";
 
-import '../public/Home/css/classrooms.css';
+import "../public/Home/css/classrooms.css";
 
 const Home = () => {
   return (
@@ -17,6 +17,6 @@ const Home = () => {
       </section>
     </>
   );
-}
+};
 
 export default Home;
