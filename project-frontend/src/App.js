@@ -9,6 +9,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import CreateClassroom from "./pages/CreateClassroom";
+import JoinClassroom from "./pages/JoinClassroom";
 import Classroom from "./pages/Classroom";
 import UploadLecture from "./pages/UploadLecture";
 import UploadMaterial from "./pages/UploadMaterial";
@@ -64,6 +65,7 @@ const App = (props) => {
         />
         <Route path="/class/:id/lecture/:lid" exact component={Lecture} />
         <Route path="/create-classroom" exact component={CreateClassroom} />
+        <Route path="/join-classroom" exact component={JoinClassroom} />
         <Route path="*" component={PageNotFound} />
       </Switch>
     );

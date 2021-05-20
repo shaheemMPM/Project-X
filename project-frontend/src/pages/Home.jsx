@@ -94,12 +94,17 @@ const Home = () => {
           <>
             <h1 className="myclass__heading">Joined Classes</h1>
             <div className="classrooms__inner">
-              <Classroom
-                title={"test"}
-                subtitle={"sub title"}
-                owner={"owner"}
-                bg={bg1}
-              />
+              {joinedClasses.map((classroom, ind) => {
+                return (
+                  <Classroom
+                    key={ind}
+                    title={classroom.title}
+                    subtitle={classroom.subtitle}
+                    owner={classroom.createdBy}
+                    bg={bgList[ind]}
+                  />
+                );
+              })}
             </div>
           </>
         ) : null}

@@ -32,7 +32,14 @@ const Nav = () => {
         </h1>
       </div>
       <div className="nav__right">
-        <button className="btn__join">Join</button>
+        <button
+          onClick={() => {
+            history.push("/join-classroom");
+          }}
+          className="btn__join"
+        >
+          Join
+        </button>
         <button
           onClick={() => {
             history.push("/create-classroom");
