@@ -1,5 +1,9 @@
 // Components
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import swal from "sweetalert";
+import axios from "axios";
+// custom components
 import Nav from "../core/components/UploadItem/nav";
 // import style
 import "../public/UploadItem/main.css";
@@ -11,6 +15,8 @@ const CreateClassroom = () => {
   const [credit, setCredit] = useState("");
   const [description, setDescription] = useState("");
 
+  let history = useHistory();
+
   useEffect(() => {
     let authData = JSON.parse(sessionStorage.getItem("auth_data"));
     setToken(authData);
@@ -19,7 +25,31 @@ const CreateClassroom = () => {
 
   const createClassroomHandler = (e) => {
     e.preventDefault();
-    console.log(title, subtitle, credit, description);
+    if (!title || !subtitle) {
+      swal("", "Fill all required fields", "info");
+      return;
+    }
+    const POST_URL = "http://localhost:8000/api/v1/classroom";
+    const header_config = {
+      headers: { Authorization: `Bearer ${token.token}` },
+    };
+    axios
+      .post(
+        POST_URL,
+        {
+          title,
+          subtitle,
+          credit,
+          description,
+        },
+        header_config
+      )
+      .then((response) => {
+        history.push("/");
+      })
+      .catch((error) => {
+        swal("Error", error.response.data.message, "error");
+      });
   };
 
   return (
@@ -30,7 +60,7 @@ const CreateClassroom = () => {
 
         <form className="login100-form ">
           <div className="wrap-input100">
-            <span className="label-input100">Title</span>
+            <span className="label-input100">Title*</span>
             <input
               className="input100"
               type="text"
@@ -47,7 +77,7 @@ const CreateClassroom = () => {
           <div className="ip-bouded">
             <div className="ip-outer chapter-outer">
               <div className="wrap-input100">
-                <span className="label-input100">Sub Title</span>
+                <span className="label-input100">Sub Title*</span>
                 <input
                   className="input100"
                   type="text"
