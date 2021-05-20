@@ -9,8 +9,6 @@ const router = express.Router();
 
 router.use(checkAuth);
 
-router.get("/:cid", classroomController.getClassroomById);
-
 router.post(
   "/",
   [check("title").not().isEmpty(), check("subtitle").not().isEmpty()],
@@ -20,6 +18,8 @@ router.post(
 router.get("/my", classroomController.getMyClassrooms);
 
 router.get("/joined", classroomController.getJoinedClassrooms);
+
+router.get("/:cid", classroomController.getClassroomById);
 
 router.patch(
   "/join",
