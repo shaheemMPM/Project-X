@@ -50,4 +50,22 @@ const createClassroom = async (req, res, next) => {
   });
 };
 
+const getMyClassrooms = async (req, res, next) => {
+  let createdBy = req.userData.username;
+  let classrooms;
+
+  try {
+    classrooms = await Classroom.find({ createdBy });
+  } catch (err) {
+    console.error("Error while reading getMyClassrooms", err);
+    return next(new HttpError("db read failed, please try again later.", 500));
+  }
+
+  res.status(201).json({
+    message: "read classrooms successfully",
+    data: classrooms,
+  });
+};
+
 exports.createClassroom = createClassroom;
+exports.getMyClassrooms = getMyClassrooms;

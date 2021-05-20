@@ -15,4 +15,6 @@ router.post(
   classroomController.createClassroom
 );
 
+router.get("/my", classroomController.getMyClassrooms);
+
 module.exports = router;

@@ -9,6 +9,11 @@ const classroomSchema = new Schema({
   description: { type: String, required: false, default: " " },
   createdBy: { type: String, require: true },
   createdAt: { type: Number, require: true, default: Number(new Date()) },
+  students: [
+    {
+      type: String,
+    },
+  ],
 });
 
 module.exports = mongoose.model("Classroom", classroomSchema);
