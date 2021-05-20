@@ -17,4 +17,6 @@ router.post(
 
 router.get("/my", classroomController.getMyClassrooms);
 
+router.get("/joined", classroomController.getJoinedClassrooms);
+
 module.exports = router;
