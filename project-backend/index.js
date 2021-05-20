@@ -10,7 +10,8 @@ const HttpError = require("./models/http-error");
 const logger = require("./utils/logger");
 
 // import routes
-const userRoutes = require('./routes/user-routes');
+const userRoutes = require("./routes/user-routes");
+const classroomRoutes = require("./routes/classroom-routes");
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/classroom", classroomRoutes);
 
 app.use((req, res, next) => {
   console.error(`Could not find the route : ${req.originalUrl}`);
