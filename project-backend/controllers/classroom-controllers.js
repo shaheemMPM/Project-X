@@ -84,6 +84,50 @@ const getJoinedClassrooms = async (req, res, next) => {
   });
 };
 
+const joinClassroom = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.error("Invalid inputs passed in join classroom");
+    return next(
+      new HttpError("Invalid inputs passed, please check your data.", 422)
+    );
+  }
+
+  let username = req.userData.username;
+
+  const { classId } = req.body;
+
+  let classroom;
+
+  try {
+    classroom = await Classroom.findById(classId);
+  } catch (err) {
+    console.error("Error while reading joinClassroom", err);
+    return next(new HttpError("db read failed, please try again later.", 500));
+  }
+
+  if (!classroom) {
+    return next(
+      new HttpError("can't find classroom, please try again later.", 404)
+    );
+  }
+
+  classroom.students.push(username);
+
+  try {
+    await classroom.save();
+  } catch (err) {
+    console.error("Error while saving in joinClassroom", err);
+    return next(new HttpError("db save failed, please try again later.", 500));
+  }
+
+  res.status(201).json({
+    message: "joined classroom successfully",
+    data: classroom,
+  });
+};
+
 exports.createClassroom = createClassroom;
 exports.getMyClassrooms = getMyClassrooms;
 exports.getJoinedClassrooms = getJoinedClassrooms;
+exports.joinClassroom = joinClassroom;

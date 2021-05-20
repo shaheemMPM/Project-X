@@ -19,4 +19,10 @@ router.get("/my", classroomController.getMyClassrooms);
 
 router.get("/joined", classroomController.getJoinedClassrooms);
 
+router.patch(
+  "/join",
+  [check("classId").not().isEmpty()],
+  classroomController.joinClassroom
+);
+
 module.exports = router;
