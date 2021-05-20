@@ -46,7 +46,26 @@ const Home = () => {
       });
   };
 
+  const getJoinedClassrooms = () => {
+    if (!token) {
+      return;
+    }
+    const GET_URL = "http://localhost:8000/api/v1/classroom/joined";
+    const header_config = {
+      headers: { Authorization: `Bearer ${token.token}` },
+    };
+    axios
+      .get(GET_URL, header_config)
+      .then((response) => {
+        setJoinedClasses(response.data.data);
+      })
+      .catch((error) => {
+        swal("Error", error.response.data.message, "error");
+      });
+  };
+
   useEffect(getMyClassrooms, [token]);
+  useEffect(getJoinedClassrooms, [token]);
 
   return (
     <>
