@@ -6,7 +6,7 @@ import user from "../../../public/Home/images/user.png";
 
 const Classroom = (props) => {
   return (
-    <div className="card__classroom">
+    <div className="card__classroom" onClick={props.expand}>
       <div
         className="classroom__card__top"
         style={{ backgroundImage: `url(${props.bg})` }}

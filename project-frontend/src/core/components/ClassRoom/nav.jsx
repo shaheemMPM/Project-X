@@ -2,7 +2,7 @@ import "../../../public/Home/css/nav.css";
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-const Nav = () => {
+const Nav = (props) => {
   let history = useHistory();
 
   const [token, setToken] = useState(null);
@@ -32,7 +32,7 @@ const Nav = () => {
         </h1>
       </div>
       <div className="nav__right">
-        <button className="btn__join">Live</button>
+        {props.isAuthor ? <button className="btn__join">Live</button> : null}
         <div className="dropdown">
           <button
             className="btn__user dropbtn"

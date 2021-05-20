@@ -1,6 +1,6 @@
 // modules
 import { useState, useEffect } from "react";
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import swal from "sweetalert";
 import axios from "axios";
 // Custom Components
@@ -20,7 +20,7 @@ const Home = () => {
   const [joinedClasses, setJoinedClasses] = useState([]);
   const bgList = [bg1, bg2, bg3, bg4, bg5];
 
-  // let history = useHistory();
+  let history = useHistory();
 
   useEffect(() => {
     let authData = JSON.parse(sessionStorage.getItem("auth_data"));
@@ -79,6 +79,9 @@ const Home = () => {
                 return (
                   <Classroom
                     key={ind}
+                    expand={() => {
+                      history.push(`/class/${classroom._id}`);
+                    }}
                     title={classroom.title}
                     subtitle={classroom.subtitle}
                     owner={classroom.createdBy}
@@ -98,6 +101,9 @@ const Home = () => {
                 return (
                   <Classroom
                     key={ind}
+                    expand={() => {
+                      history.push(`/class/${classroom._id}`);
+                    }}
                     title={classroom.title}
                     subtitle={classroom.subtitle}
                     owner={classroom.createdBy}
