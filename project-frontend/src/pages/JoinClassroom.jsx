@@ -26,7 +26,7 @@ const JoinClassroom = () => {
       swal("", "Enter classroom code", "info");
       return;
     }
-    const PATCH_URL = "http://localhost:8000/api/v1/classroom/join";
+    const PATCH_URL = "https://192.168.0.103:8883/api/v1/classroom/join";
     const header_config = {
       headers: { Authorization: `Bearer ${token.token}` },
     };

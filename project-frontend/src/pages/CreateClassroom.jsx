@@ -29,7 +29,7 @@ const CreateClassroom = () => {
       swal("", "Fill all required fields", "info");
       return;
     }
-    const POST_URL = "http://localhost:8000/api/v1/classroom";
+    const POST_URL = "https://192.168.0.103:8883/api/v1/classroom";
     const header_config = {
       headers: { Authorization: `Bearer ${token.token}` },
     };

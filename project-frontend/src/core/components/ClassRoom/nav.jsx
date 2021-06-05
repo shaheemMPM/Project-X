@@ -1,6 +1,8 @@
 import "../../../public/Home/css/nav.css";
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
+const videoConferenceUrl = `https://${window.location.hostname}:4443/`;
+
 
 const Nav = (props) => {
   let history = useHistory();
@@ -20,6 +22,13 @@ const Nav = (props) => {
     window.location.pathname = "/";
   };
 
+  const openConference = ()=>{
+    const newWindow = window.open(videoConferenceUrl+props.liveClassId, JSON.stringify(token), 'noopener,noreferrer');
+    if (newWindow) {
+      newWindow.opener = null;
+    }
+  }
+
   return (
     <nav className="nav" role="navigation">
       <div className="nav__left">
@@ -32,7 +41,12 @@ const Nav = (props) => {
         </h1>
       </div>
       <div className="nav__right">
-        {props.isAuthor ? <button className="btn__join">Live</button> : null}
+        {props.isAuthor ? 
+          <button 
+            className="btn__join" 
+            onClick={()=>{openConference();}}
+          >Live</button> 
+        : null}
         <div className="dropdown">
           <button
             className="btn__user dropbtn"

@@ -11,7 +11,7 @@ import Assignments from "../core/components/ClassRoom/assignments";
 import "../public/Classroom/main.css";
 
 const Classroom = (props) => {
-  const classId = props.match.params.id;
+  const classId = props.match.params.id;  
   const [token, setToken] = useState(null);
   const [classData, setClassData] = useState(null);
 
@@ -25,7 +25,7 @@ const Classroom = (props) => {
     if (!token) {
       return;
     }
-    const GET_URL = `http://localhost:8000/api/v1/classroom/${classId}`;
+    const GET_URL = `https://192.168.0.103:8883/api/v1/classroom/${classId}`;
     const header_config = {
       headers: { Authorization: `Bearer ${token.token}` },
     };
@@ -40,13 +40,13 @@ const Classroom = (props) => {
       });
   };
 
-  useEffect(getClassroomData, [token]);
+  useEffect(getClassroomData, [token, classId]);
 
   return (
     <>
       {!!classData ? (
         <>
-          <Nav isAuthor={classData.createdBy === token.username} />
+          <Nav isAuthor={classData.createdBy === token.username} liveClassId={classData.liveClassId} />
           <section className="classroom">
             <Lectures
               isAuthor={classData.createdBy === token.username}
