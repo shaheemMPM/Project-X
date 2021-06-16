@@ -14,6 +14,7 @@ const Classroom = (props) => {
   const classId = props.match.params.id;
   const [token, setToken] = useState(null);
   const [classData, setClassData] = useState(null);
+  const [lectures, setLectures] = useState(null);
 
   useEffect(() => {
     let authData = JSON.parse(sessionStorage.getItem("auth_data"));
@@ -32,7 +33,6 @@ const Classroom = (props) => {
     axios
       .get(GET_URL, header_config)
       .then((response) => {
-        console.log(response.data.data);
         setClassData(response.data.data);
       })
       .catch((error) => {
@@ -40,7 +40,32 @@ const Classroom = (props) => {
       });
   };
 
-  useEffect(getClassroomData, [token]);
+  const getLectures = () => {
+    if (!token) {
+      return;
+    }
+    const GET_URL = `http://localhost:8000/api/v1/lecture/class/${classId}`;
+    const header_config = {
+      headers: { Authorization: `Bearer ${token.token}` },
+    };
+    axios
+      .get(GET_URL, header_config)
+      .then((response) => {
+        setLectures(response.data.data);
+      })
+      .catch((error) => {
+        swal("Error", error.response.data.message, "error");
+      });
+  };
+
+  useEffect(
+    () => {
+      getClassroomData();
+      getLectures();
+    },
+    // eslint-disable-next-line
+    [token]
+  );
 
   return (
     <>
@@ -50,6 +75,7 @@ const Classroom = (props) => {
           <section className="classroom">
             <Lectures
               isAuthor={classData.createdBy === token.username}
+              lectures={lectures}
               classId={classId}
             />
             <Materials

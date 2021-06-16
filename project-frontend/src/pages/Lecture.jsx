@@ -1,65 +1,138 @@
+// modules
+import { useState, useEffect } from "react";
 // Components
-import Nav from '../core/components/UploadItem/nav';
-import ChatFrom from '../core/components/Lecture/chat-from';
-import ChatTo from '../core/components/Lecture/chat-to';
+import Nav from "../core/components/UploadItem/nav";
+import ChatFrom from "../core/components/Lecture/chat-from";
+import ChatTo from "../core/components/Lecture/chat-to";
 
-import '../public/Lecture/main.css';
-import TempVideo from '../public/Lecture/temp.mp4';
-import User from '../public/Lecture/user.png';
+import "../public/Lecture/main.css";
+import User from "../public/Lecture/user.png";
 
-const Lecture = () => {
+import swal from "sweetalert";
+import axios from "axios";
+
+const Lecture = (props) => {
+  const lectureId = props.match.params.lid;
+  const [token, setToken] = useState(null);
+  const [lecture, setLecture] = useState(null);
+
+  useEffect(() => {
+    let authData = JSON.parse(sessionStorage.getItem("auth_data"));
+    setToken(authData);
+    // eslint-disable-next-line
+  }, []);
+
+  const getLecture = () => {
+    if (!token) {
+      return;
+    }
+    const GET_URL = `http://localhost:8000/api/v1/lecture/${lectureId}`;
+    const header_config = {
+      headers: { Authorization: `Bearer ${token.token}` },
+    };
+    axios
+      .get(GET_URL, header_config)
+      .then((response) => {
+        setLecture(response.data.data);
+        console.log(response.data.data);
+      })
+      .catch((error) => {
+        swal("Error", error.response.data.message, "error");
+      });
+  };
+
+  useEffect(
+    () => {
+      getLecture();
+    },
+    // eslint-disable-next-line
+    [token]
+  );
+
   return (
     <>
       <Nav />
-      <section className="lecture-section">
-        <div className="lecture-left">
-          <video className="video-player" controls>
-            <source src={TempVideo} type="video/mp4" />
-            Your browser does not support HTML video.
-          </video>
-          <div className="video-data">
-            <h1 className="video-title">C++ Programming | Unordered Maps | Multimap..</h1>
-            <p className="video-time">Streamed live on 24 April 2021</p>
-            <hr className="hr-title" />
-            <p className="content-title">Contents (Auto Generated)</p>
-            <ol className="content-list">
-              <li className="content-list-item">
-                <a href={`${window.location.href}/#`}>00:00  -- Introduction</a>
-              </li>
-              <li className="content-list-item">
-                <a href={`${window.location.href}/#`}>01 : 10  -- Unordered maps</a>
-              </li>
-              <li className="content-list-item">
-                <a href={`${window.location.href}/#`}>05: 00 -- Multimaps  </a>
-              </li>
-            </ol>
-          </div>
-        </div>
-        <div className="lecture-right">
-          <div className="chatbox">
-            <div className="chats">
-
-              <ChatFrom img={User} username="mita" text="Hey, can anyone help me with a doubt?" />
-              <ChatTo text="Yeah sure, shoot" />
-              <ChatFrom img={User} username="mita" text="What is STL Algorithms?" />
-              <ChatTo text="STL in C++ is the Standard Templates Library" />
-              <ChatFrom img={User} username="mita" text="It was very helpful to get the full form" />
-              <ChatTo text="What else did you expected to get?" />
-              <ChatFrom img={User} username="mita" text="Explain me what is standard templates library!" />
-              <ChatTo text="Well that's what google is for" />
-              
-            </div>
-            <div className="text-send">
-              <input type="text" className="ip-type-msg" placeholder="Type a message here..." />
-              <button className="btn-send">
-                <span className="material-icons ic-btn">send</span>
-              </button>
+      {!!lecture ? (
+        <section className="lecture-section">
+          <div className="lecture-left">
+            <video className="video-player" controls>
+              <source
+                src={`http://localhost:8000/${lecture.url}`}
+                type="video/mp4"
+              />
+              Your browser does not support HTML video.
+            </video>
+            <div className="video-data">
+              <h1 className="video-title">{lecture.title}</h1>
+              <p className="video-time">
+                Uploaded on {new Date(lecture.createdAt).toDateString()}
+              </p>
+              <hr className="hr-title" />
+              <p className="video-time" style={{ marginBottom: "20px" }}>
+                {lecture.description}
+              </p>
+              <p className="content-title">Contents (Auto Generated)</p>
+              <ol className="content-list">
+                <li className="content-list-item">
+                  <a href={`${window.location.href}/#`}>
+                    00:00 -- Introduction
+                  </a>
+                </li>
+                <li className="content-list-item">
+                  <a href={`${window.location.href}/#`}>
+                    01 : 10 -- Unordered maps
+                  </a>
+                </li>
+                <li className="content-list-item">
+                  <a href={`${window.location.href}/#`}>05: 00 -- Multimaps </a>
+                </li>
+              </ol>
             </div>
           </div>
-        </div>
-      </section>
+          <div className="lecture-right">
+            <div className="chatbox">
+              <div className="chats">
+                <ChatFrom
+                  img={User}
+                  username="mita"
+                  text="Hey, can anyone help me with a doubt?"
+                />
+                <ChatTo text="Yeah sure, shoot" />
+                <ChatFrom
+                  img={User}
+                  username="mita"
+                  text="What is STL Algorithms?"
+                />
+                <ChatTo text="STL in C++ is the Standard Templates Library" />
+                <ChatFrom
+                  img={User}
+                  username="mita"
+                  text="It was very helpful to get the full form"
+                />
+                <ChatTo text="What else did you expected to get?" />
+                <ChatFrom
+                  img={User}
+                  username="mita"
+                  text="Explain me what is standard templates library!"
+                />
+                <ChatTo text="Well that's what google is for" />
+              </div>
+              <div className="text-send">
+                <input
+                  type="text"
+                  className="ip-type-msg"
+                  placeholder="Type a message here..."
+                />
+                <button className="btn-send">
+                  <span className="material-icons ic-btn">send</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : null}
     </>
   );
-}
+};
 
 export default Lecture;
