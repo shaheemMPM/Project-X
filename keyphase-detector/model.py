@@ -4,7 +4,6 @@ def recognize(file):
     AUDIO_FILE = (file)
 
     # use the audio file as the audio source
-
     r = sr.Recognizer()
 
     with sr.AudioFile(AUDIO_FILE) as source:
@@ -13,7 +12,7 @@ def recognize(file):
         audio = r.record(source)  
 
     try:
-        return(r.recognize_google(audio, language="es-ES"))
+        return(r.recognize_google(audio, language="en-EN"))
 
     except sr.UnknownValueError:
         return("Could not understand audio")
