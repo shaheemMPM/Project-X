@@ -7,12 +7,14 @@ const cors = require("cors");
 const HttpError = require("./models/http-error");
 
 // Importing utilities
-// const logger = require("./utils/logger");
+const logger = require("./utils/logger");
 
 // import routes
 const userRoutes = require("./routes/user-routes");
 const classroomRoutes = require("./routes/classroom-routes");
 const lectureRoutes = require("./routes/lecture-routes");
+const materialRoutes = require("./routes/materials-routes");
+const assignmentsRoutes = require("./routes/assignments-routes");
 
 const app = express();
 
@@ -33,6 +35,8 @@ app.get("/", (req, res) => {
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/classroom", classroomRoutes);
 app.use("/api/v1/lecture", lectureRoutes);
+app.use("/api/v1/material", materialRoutes);
+app.use("/api/v1/assignment", assignmentsRoutes);
 
 app.use((req, res, next) => {
   console.error(`Could not find the route : ${req.originalUrl}`);
