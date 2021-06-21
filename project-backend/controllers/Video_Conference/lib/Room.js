@@ -7,6 +7,7 @@ const { SocketTimeoutError } = require('./errors');
 const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 const userRoles = require('../userRoles');
+const GStreamer = require('./gstreamer');
 
 const {
 	BYPASS_ROOM_LOCK,
@@ -29,6 +30,11 @@ const permissions = require('../permissions'), {
 } = permissions;
 
 const config = require('../../../config/config');
+
+const {
+	getPort,
+	releasePort
+} = require('./port');
 
 const logger = new Logger('Room');
 
@@ -328,6 +334,11 @@ class Room extends EventEmitter
 		{
 			if (!this._peers[peer].closed)
 				this._peers[peer].close();
+
+			if (this._peers[peer]._process) {
+				this._peers[peer]._process.kill();
+				this._peers[peer]._process = undefined;
+			}
 		}
 
 		this._peers = null;
@@ -1689,6 +1700,26 @@ class Room extends EventEmitter
 				break;
 			}
 
+			case 'startRecording':
+			{
+				console.log('started recording');
+
+				this.handleStartRecording(peer);
+
+				cb();
+
+				break;
+			}
+
+			case 'stopRecording':
+			{
+				this.stopRecord(peer);
+
+				cb();
+				
+				break;
+			}
+
 			case 'moderator:closeMeeting':
 			{
 				if (!this._hasPermission(peer, MODERATE_ROOM))
@@ -2106,6 +2137,112 @@ class Room extends EventEmitter
 			.filter((routerId, index, self) =>
 				routerId !== originRouterId && self.indexOf(routerId) === index
 			);
+	}
+
+	async handleStartRecording(peer)
+	{
+		let recordInput = {},
+			consumers = [];
+		const router = this._mediasoupRouters.get(peer.routerId);
+
+		// console.log('inside handle start recording');
+		// console.log(peer.producers);
+		// for (const joinedPeer of this.getJoinedPeers(peer))
+		// 	{	
+		// 	}
+
+		for(let entry of peer.producers.entries())
+		{
+			if(entry[1].kind === 'audio' || entry[1].kind === 'video'){
+				const port = await getPort();
+				const rtcpPort = await getPort();
+
+				peer.addPort(port);
+				peer.addPort(rtcpPort);
+
+				const rtpTransport = await router.createPlainTransport({
+					// No RTP will be received from the remote side
+					comedia: false,
+					// FFmpeg and GStreamer don't support RTP/RTCP multiplexing ("a=rtcp-mux" in SDP)
+					rtcpMux: false,
+		
+					...config.mediasoup.plainTransport,
+				});
+				peer.addTransport(rtpTransport.id, rtpTransport);
+				await rtpTransport.connect({
+					ip: config.mediasoup.recording.ip,
+					port: port,
+					rtcpPort: rtcpPort
+				});
+
+				const codecs = [];
+				// Codec passed to the RTP Consumer must match the codec in the Mediasoup router rtpCapabilities
+				const routerCodec = router.rtpCapabilities.codecs.find(
+				codec => codec.kind === entry[1].kind
+				);
+				codecs.push(routerCodec);
+				// console.log(codecs);
+			
+				const rtpCapabilities = {
+					codecs,
+					rtcpFeedback: []
+				};
+
+				const rtpConsumer = await rtpTransport.consume(
+					{
+						producerId      : entry[0],
+						rtpCapabilities : rtpCapabilities,
+						paused          : true
+					}
+				);
+
+				peer.addConsumer(rtpConsumer.id, rtpConsumer);
+				consumers.push(rtpConsumer);
+			
+				console.log(port);
+				recordInput[entry[1].kind] = {
+					remoteRtpPort:port,
+					remoteRtcpPort:rtcpPort,
+					localRtcpPort: rtpTransport.rtcpTuple ? rtpTransport.rtcpTuple.localPort : undefined,
+					rtpCapabilities,
+					rtpParameters: rtpConsumer.rtpParameters
+				};
+			}
+		}
+		
+		recordInput.fileName = Date.now().toString();
+		
+		// console.log(router);
+		peer._process = new GStreamer(recordInput);
+
+		setTimeout(()=>
+		{
+			consumers.forEach(async (consumer) =>
+			{
+				consumer.resume();
+			});
+		},1000);
+
+	}
+
+	stopRecord(peer)
+	{
+		if (!peer) {
+			throw new Error(`Peer with id was not found`);
+		}
+
+		if (!peer._process) {
+			throw new Error(`Peer with id is not recording`);
+		}
+
+		peer._process.kill();
+		peer._process = undefined;
+
+		// Release ports from port set
+		for (const remotePort of peer.getPorts()) {
+			releasePort(remotePort);
+		}
+		peer.releasePorts();
 	}
 
 }

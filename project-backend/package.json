@@ -4,7 +4,7 @@
   "description": "Project X server",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "DEBUG=project-x_server nodemon index.js",
     "execute": "node server.js",
     "connect": "node connect.js",
     "lint": "eslint -c .eslintrc.json --ext .js *.js lib/"
@@ -53,6 +53,7 @@
     "redis": "^2.8.0",
     "socket.io": "^2.3.0",
     "spdy": "^4.0.1",
+    "tree-kill": "^1.2.2",
     "uuid": "^7.0.2",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.2"

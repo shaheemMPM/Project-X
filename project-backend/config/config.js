@@ -25,10 +25,11 @@ const {
 
 // const AwaitQueue = require('awaitqueue');
 // const axios = require('axios');
+const serverIp = '192.168.0.105';
 
 module.exports =
 {
-
+	serverIp : serverIp,
 	// Auth conf
 	/*
 	auth :
@@ -451,7 +452,7 @@ module.exports =
 			listenIps :
 			[
 				// change 192.0.2.1 IPv4 to your server's IPv4 address!!
-				{ ip: '192.168.0.103', announcedIp: null }
+				{ ip: '127.0.0.1', announcedIp: null }
 
 				// Can have multiple listening interfaces
 				// change 2001:DB8::1 IPv6 to your server's IPv6 address!!
@@ -461,7 +462,14 @@ module.exports =
 			minimumAvailableOutgoingBitrate : 600000,
 			// Additional options that are not part of WebRtcTransportOptions.
 			maxIncomingBitrate              : 1500000
-		}
+		},
+		// Recording Settings
+		recording: {
+			ip: '127.0.0.1',
+		},
+		plainTransport: {
+			listenIp: { ip: '127.0.0.1', announcedIp: '127.0.0.1' },
+		},
 	}
 
 	/*

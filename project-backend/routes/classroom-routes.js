@@ -21,6 +21,10 @@ router.get("/joined", classroomController.getJoinedClassrooms);
 
 router.get("/:cid", classroomController.getClassroomById);
 
+router.post("/startLive", classroomController.startLiveClass);
+
+router.post("/stopLive", classroomController.stopLiveClass);
+
 router.patch(
   "/join",
   [check("classId").not().isEmpty()],

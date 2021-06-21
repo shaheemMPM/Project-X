@@ -45,6 +45,10 @@ class Peer extends EventEmitter
 
 		this._raisedHand = false;
 
+		this._remotePorts = [];
+
+		this._process = undefined;
+
 		this._raisedHandTimestamp = null;
 
 		this._transports = new Map();
@@ -378,6 +382,21 @@ class Peer extends EventEmitter
 	removeConsumer(id)
 	{
 		this.consumers.delete(id);
+	}
+
+	addPort(port)
+	{
+		this._remotePorts.push(port);
+	}
+
+	releasePorts()
+	{
+		this._remotePorts = [];
+	}
+
+	getPorts()
+	{
+		return this._remotePorts;
 	}
 
 	get peerInfo()

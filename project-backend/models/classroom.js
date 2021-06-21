@@ -11,6 +11,7 @@ const classroomSchema = new Schema({
   createdBy: { type: String, require: true },
   createdAt: { type: Number, require: true, default: Number(new Date()) },
   liveClassId: { type: String, require: true, default: randomString({ length: 10 }) },
+  isClassLive: { type: Boolean, default: false },
   students: [
     {
       type: String,

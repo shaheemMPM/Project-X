@@ -144,8 +144,58 @@ const joinClassroom = async (req, res, next) => {
   });
 };
 
+const startLiveClass = async (req, res, next) => {
+  // console.log(req.body.isClassLive);
+  if(req.body.isClassLive === true){
+    let classroom;
+
+    try {
+      classroom = await Classroom.findById(req.body.classId);
+    }
+    catch (err) {
+      console.error("Error while reading DB", err);
+      return next(new HttpError("db read failed, please try again later.", 500));
+    }
+    classroom.isClassLive = true;
+
+    try {
+      await classroom.save();
+    } 
+    catch (err) {
+      console.error("Error while saving in joinClassroom", err);
+      return next(new HttpError("db save failed, please try again later.", 500));
+    }
+  }
+}
+
+const stopLiveClass = async (req, res, next) => {
+  console.log(req.body.isClassLive);
+  if(req.body.isClassLive === false){
+    let classroom;
+
+    try {
+      classroom = await Classroom.findById(req.body.classId);
+    }
+    catch (err) {
+      console.error("Error while reading DB", err);
+      return next(new HttpError("db read failed, please try again later.", 500));
+    }
+    classroom.isClassLive = false;
+
+    try {
+      await classroom.save();
+    } 
+    catch (err) {
+      console.error("Error while saving in joinClassroom", err);
+      return next(new HttpError("db save failed, please try again later.", 500));
+    }
+  }
+}
+
 exports.createClassroom = createClassroom;
 exports.getMyClassrooms = getMyClassrooms;
 exports.getJoinedClassrooms = getJoinedClassrooms;
 exports.joinClassroom = joinClassroom;
 exports.getClassroomById = getClassroomById;
+exports.startLiveClass = startLiveClass;
+exports.stopLiveClass = stopLiveClass;
