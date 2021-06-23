@@ -1,5 +1,5 @@
-import '../../../public/Classroom/main.css';
-import pdf from '../../../public/Classroom/file-pdf.png';
+import "../../../public/Classroom/main.css";
+import pdf from "../../../public/Classroom/file-pdf.png";
 
 const Material = () => {
   return (
@@ -8,6 +8,6 @@ const Material = () => {
       <h1 className="material-file-name">Introduction to Data Mining</h1>
     </div>
   );
-}
+};
 
 export default Material;

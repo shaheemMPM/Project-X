@@ -1,4 +1,4 @@
-import '../../../public/Classroom/main.css';
+import "../../../public/Classroom/main.css";
 
 const Assignment = () => {
   return (
@@ -8,6 +8,6 @@ const Assignment = () => {
       <h3 className="assignment-due">Due : 18/08/2021</h3>
     </div>
   );
-}
+};
 
 export default Assignment;
