@@ -7,7 +7,7 @@ const cors = require("cors");
 const HttpError = require("./models/http-error");
 
 // Importing utilities
-const logger = require("./utils/logger");
+// const logger = require("./utils/logger");
 
 // import routes
 const userRoutes = require("./routes/user-routes");

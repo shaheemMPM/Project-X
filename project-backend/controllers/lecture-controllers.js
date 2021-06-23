@@ -3,6 +3,9 @@
 const Lecture = require("../models/lecture");
 const path = require("path");
 const multer = require("multer");
+const axios = require("axios");
+const FormData = require("form-data");
+const fs = require("fs");
 
 // Set The Storage Engine
 const storage = multer.diskStorage({
@@ -33,11 +36,50 @@ const createLecture = async (req, res, next) => {
           message: "can't find file",
         });
       } else {
+        const form = new FormData();
+        const filePath = path.join(
+          __dirname,
+          "..",
+          "public",
+          "uploads",
+          req.file.filename
+        );
+
+        form.append("file", fs.createReadStream(filePath));
+
+        const request_config = {
+          headers: {
+            ...form.getHeaders(),
+          },
+        };
+
+        let response, transcript, keywords;
+
+        try {
+          response = await axios.post(
+            "http://localhost:8080",
+            form,
+            request_config
+          );
+          response = await axios.get("http://localhost:8080");
+
+          if (response.data.transcript) {
+            transcript = response.data.transcript;
+          }
+          if (response.data.keywords) {
+            keywords = response.data.keywords;
+          }
+        } catch (error) {
+          console.error(error);
+        }
+
         const createdLecture = new Lecture({
           title,
           description,
           classroom,
           url: `uploads/${req.file.filename}`,
+          transcript,
+          keywords,
           createdAt: Date.now(),
         });
 
