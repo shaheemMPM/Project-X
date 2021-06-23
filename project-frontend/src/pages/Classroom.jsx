@@ -15,6 +15,7 @@ const Classroom = (props) => {
   const [token, setToken] = useState(null);
   const [classData, setClassData] = useState(null);
   const [lectures, setLectures] = useState(null);
+  const [materials, setMaterials] = useState(null);
 
   useEffect(() => {
     let authData = JSON.parse(sessionStorage.getItem("auth_data"));
@@ -58,10 +59,29 @@ const Classroom = (props) => {
       });
   };
 
+  const getMaterials = () => {
+    if (!token) {
+      return;
+    }
+    const GET_URL = `http://localhost:8000/api/v1/material/class/${classId}`;
+    const header_config = {
+      headers: { Authorization: `Bearer ${token.token}` },
+    };
+    axios
+      .get(GET_URL, header_config)
+      .then((response) => {
+        setMaterials(response.data.data);
+      })
+      .catch((error) => {
+        swal("Error", error.response.data.message, "error");
+      });
+  };
+
   useEffect(
     () => {
       getClassroomData();
       getLectures();
+      getMaterials();
     },
     // eslint-disable-next-line
     [token]
@@ -80,6 +100,7 @@ const Classroom = (props) => {
             />
             <Materials
               isAuthor={classData.createdBy === token.username}
+              materials={materials}
               classId={classId}
             />
             <Assignments
