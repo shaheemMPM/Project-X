@@ -1,21 +1,29 @@
 import os
 import shutil
 from model import *
+from keyphrase import *
 from fastapi import FastAPI, File, UploadFile
-
+import uvicorn
+import subprocess
 
 app = FastAPI()
 
-out_file_path = "./files/file1.wav"
+command = "ffmpeg -i files/test.mp4 -ab 160k -ac 2 -ar 44100 -vn files/test.wav"
 
 @app.post("/")
-async def post_voice(file: UploadFile=File(...)):
-    with open('files/test.wav', "wb") as buffer:
+async def post_video(file: UploadFile=File(...)):
+    with open('files/test.mp4', "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
+    subprocess.call(command, shell=True)
     return{file.filename}
 
 @app.get("/")
 async def get_text():
     a = recognize('files/test.wav')
     os.remove('files/test.wav')
-    return{a}
+    os.remove('files/test.mp4')
+    b = get_hotwords(a);
+    return {"transcript": a, "keywords": b};
+
+if __name__ == '__main__':
+    uvicorn.run(app, port=8080, host='0.0.0.0')
