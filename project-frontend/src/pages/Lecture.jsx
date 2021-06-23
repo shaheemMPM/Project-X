@@ -15,6 +15,8 @@ const Lecture = (props) => {
   const lectureId = props.match.params.lid;
   const [token, setToken] = useState(null);
   const [lecture, setLecture] = useState(null);
+  const [isTranscript, setIsTranscript] = useState(false);
+  const [isKeywords, setIsKeywords] = useState(false);
 
   useEffect(() => {
     let authData = JSON.parse(sessionStorage.getItem("auth_data"));
@@ -34,7 +36,6 @@ const Lecture = (props) => {
       .get(GET_URL, header_config)
       .then((response) => {
         setLecture(response.data.data);
-        console.log(response.data.data);
       })
       .catch((error) => {
         swal("Error", error.response.data.message, "error");
@@ -71,8 +72,43 @@ const Lecture = (props) => {
               <p className="video-time" style={{ marginBottom: "20px" }}>
                 {lecture.description}
               </p>
-              <p className="content-title">Contents (Auto Generated)</p>
-              <ol className="content-list">
+              <p className="content-title">
+                <button
+                  className="btn btn-primary"
+                  style={{ marginRight: "20px" }}
+                  onClick={() => {
+                    setIsTranscript(!isTranscript);
+                  }}
+                >
+                  {isTranscript ? "Hide" : "View"} Transcript
+                </button>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    setIsKeywords(!isKeywords);
+                  }}
+                >
+                  {isKeywords ? "Hide" : "View"} Keywords
+                </button>
+              </p>
+              {isTranscript ? (
+                <p style={{ marginTop: "20px" }}>{lecture.transcript}</p>
+              ) : null}
+              {isKeywords ? (
+                <div style={{ marginTop: "20px" }}>
+                  {lecture.keywords.map((keyword, ind) => {
+                    return (
+                      <span
+                        key={ind}
+                        style={{ color: "#007BFF", marginRight: "25px" }}
+                      >
+                        #{keyword}
+                      </span>
+                    );
+                  })}
+                </div>
+              ) : null}
+              {/* <ol className="content-list">
                 <li className="content-list-item">
                   <a href={`${window.location.href}/#`}>
                     00:00 -- Introduction
@@ -86,7 +122,7 @@ const Lecture = (props) => {
                 <li className="content-list-item">
                   <a href={`${window.location.href}/#`}>05: 00 -- Multimaps </a>
                 </li>
-              </ol>
+              </ol> */}
             </div>
           </div>
           <div className="lecture-right">
