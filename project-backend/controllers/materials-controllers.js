@@ -1,6 +1,6 @@
 // const { validationResult } = require("express-validator");
 // const HttpError = require("../models/http-error");
-const Lecture = require("../models/lecture");
+const Material = require("../models/material");
 const path = require("path");
 const multer = require("multer");
 
@@ -20,9 +20,9 @@ const upload = multer({
   storage: storage,
 }).single("myfile");
 
-const createLecture = async (req, res, next) => {
+const createMaterial = async (req, res, next) => {
   upload(req, res, async (err) => {
-    const { title, description, classroom } = req.body;
+    const { title, description, chapter, classroom } = req.body;
     if (err) {
       res.status(500).json({
         error: err,
@@ -33,66 +33,70 @@ const createLecture = async (req, res, next) => {
           message: "can't find file",
         });
       } else {
-        const createdLecture = new Lecture({
+        const createdMaterial = new Material({
           title,
           description,
+          chapter,
           classroom,
           url: `uploads/${req.file.filename}`,
           createdAt: Date.now(),
         });
 
         try {
-          await createdLecture.save();
+          await createdMaterial.save();
         } catch (err) {
           console.error(
-            "Error while saving created lecture in createLecture",
+            "Error while saving created material in createMaterial",
             err
           );
           return next(
-            new HttpError("create lecture failed, please try again later.", 500)
+            new HttpError(
+              "create material failed, please try again later.",
+              500
+            )
           );
         }
         res.status(201).json({
-          msg: "Lecture Uploaded",
-          file: createdLecture._doc,
+          msg: "material Uploaded",
+          file: createdMaterial._doc,
         });
       }
     }
   });
 };
 
-const getLectures = async (req, res, next) => {
+const getMaterials = async (req, res, next) => {
   let classroomId = req.params.cid;
 
   try {
-    lectures = await Lecture.find({ classroom: classroomId });
+    materials = await Material.find({ classroom: classroomId });
   } catch (err) {
-    console.error("Error while reading getLectures", err);
+    console.error("Error while reading getMaterials", err);
     return next(new HttpError("db read failed, please try again later.", 500));
   }
 
   res.status(201).json({
-    message: "read lectures successfully",
-    data: lectures,
+    message: "read materials successfully",
+    data: materials,
   });
 };
 
-const getLectureById = async (req, res, next) => {
-  let lectureId = req.params.lid;
+const getMaterialById = async (req, res, next) => {
+  let materialId = req.params.lid;
 
   try {
-    lecture = await Lecture.findById(lectureId);
+    material = await Material.findById(materialId);
   } catch (err) {
-    console.error("Error while reading getLectures", err);
+    console.error("Error while reading getMaterialById", err);
     return next(new HttpError("db read failed, please try again later.", 500));
   }
 
   res.status(201).json({
-    message: "read lectures successfully",
-    data: lecture,
+    message: "read material successfully",
+    data: material,
   });
 };
 
-exports.createLecture = createLecture;
-exports.getLectures = getLectures;
-exports.getLectureById = getLectureById;
+exports.createMaterial = createMaterial;
+exports.getMaterials = getMaterials;
+exports.getMaterialById = getMaterialById;

@@ -1,7 +1,7 @@
 const express = require("express");
 // const { check } = require("express-validator");
 
-const lectureController = require("../controllers/lecture-controllers");
+const materialController = require("../controllers/materials-controllers");
 
 // const checkAuth = require("../middlewares/isauth");
 
@@ -9,10 +9,10 @@ const router = express.Router();
 
 // router.use(checkAuth);
 
-router.post("/", lectureController.createLecture);
+router.post("/", materialController.createMaterial);
 
-router.get("/class/:cid", lectureController.getLectures);
+router.get("/class/:cid", materialController.getMaterials);
 
-router.get("/:lid", lectureController.getLectureById);
+router.get("/:lid", materialController.getMaterialById);
 
 module.exports = router;
