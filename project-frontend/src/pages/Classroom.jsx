@@ -25,7 +25,7 @@ const Classroom = (props) => {
     if (!token) {
       return;
     }
-    const GET_URL = `https://192.168.0.103:8883/api/v1/classroom/${classId}`;
+    const GET_URL = `https://localhost:8883/api/v1/classroom/${classId}`;
     const header_config = {
       headers: { Authorization: `Bearer ${token.token}` },
     };
@@ -46,7 +46,12 @@ const Classroom = (props) => {
     <>
       {!!classData ? (
         <>
-          <Nav isAuthor={classData.createdBy === token.username} liveClassId={classData.liveClassId} />
+          <Nav 
+            isAuthor={classData.createdBy === token.username} 
+            liveClassId={classData.liveClassId} 
+            classId={classId}
+            isClassLive={classData.isClassLive}
+          />
           <section className="classroom">
             <Lectures
               isAuthor={classData.createdBy === token.username}

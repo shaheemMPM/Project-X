@@ -9,6 +9,7 @@ const HttpError = require("./models/http-error");
 // import routes
 const userRoutes = require("./routes/user-routes");
 const classroomRoutes = require("./routes/classroom-routes");
+const conferenceRoutes = require("./routes/conference-routes");
 
 // Importing Core Modules
 const mongoose = require("mongoose");
@@ -592,7 +593,7 @@ async function runHttpsServer()
 
     app.use("/api/v1/user", userRoutes);
     app.use("/api/v1/classroom", classroomRoutes);
-    // app.use("/api/v1/conference", conferenceRoutes)
+    app.use("/api/v1/conference", conferenceRoutes)
 
     
     app.use('/.well-known/acme-challenge', express.static('public/.well-known/acme-challenge'));

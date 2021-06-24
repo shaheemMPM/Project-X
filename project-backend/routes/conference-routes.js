@@ -5,12 +5,20 @@ const conferenceController = require("../controllers/Video_Conference/conference
 
 const router = express.Router();
 
-router.post("/",
+// router.post("/",
+//     [
+//         check("classId").exists(),
+//         check("username").exists()
+//     ],
+//     conferenceController
+// );
+
+router.post("/attention",
     [
-        check("classId").exists(),
-        check("username").exists()
+        check("attention").not().isEmpty()
     ],
-    conferenceController
+    conferenceController.setAttention
 );
+router.get("/attention/:classId", conferenceController.getAttention);
 
 module.exports = router;

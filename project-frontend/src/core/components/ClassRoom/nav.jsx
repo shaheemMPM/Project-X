@@ -1,17 +1,20 @@
 import "../../../public/Home/css/nav.css";
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
+import axios from "axios";
 const videoConferenceUrl = `https://${window.location.hostname}:4443/`;
 
 
 const Nav = (props) => {
   let history = useHistory();
+  const classId = props.classId;
 
   const [token, setToken] = useState(null);
   const [isDropped, setIsDropped] = useState(false);
 
   useEffect(() => {
     let authData = JSON.parse(sessionStorage.getItem("auth_data"));
+    authData.classId = classId;
     setToken(authData);
     // eslint-disable-next-line
   }, []);
@@ -22,8 +25,28 @@ const Nav = (props) => {
     window.location.pathname = "/";
   };
 
-  const openConference = ()=>{
+  const joinConference = () => {
     const newWindow = window.open(videoConferenceUrl+props.liveClassId, JSON.stringify(token), 'noopener,noreferrer');
+    if (newWindow) {
+      newWindow.opener = null;
+    }
+  }
+
+  const openConference = () => {
+    const newWindow = window.open(videoConferenceUrl+props.liveClassId, JSON.stringify(token), 'noopener,noreferrer');
+    const POST_URL = "https://localhost:8883/api/v1/classroom/startLive";
+    const header_config = {
+      headers: { Authorization: `Bearer ${token.token}` },
+    };
+    axios
+      .post(
+        POST_URL,
+        {
+          "classId": classId,
+          "isClassLive": true
+        },
+        header_config
+      )
     if (newWindow) {
       newWindow.opener = null;
     }
@@ -46,7 +69,15 @@ const Nav = (props) => {
             className="btn__join" 
             onClick={()=>{openConference();}}
           >Live</button> 
-        : null}
+        : 
+          props.isClassLive ?
+            <button 
+              className="btn__join" 
+              onClick={()=>{joinConference();}}
+            >Join Class</button> 
+            : false
+          
+        }
         <div className="dropdown">
           <button
             className="btn__user dropbtn"
