@@ -17,6 +17,8 @@ const Lecture = (props) => {
   const [lecture, setLecture] = useState(null);
   const [isTranscript, setIsTranscript] = useState(false);
   const [isKeywords, setIsKeywords] = useState(false);
+  const [text, setText] = useState("");
+  const [chat, setChat] = useState(null);
 
   useEffect(() => {
     let authData = JSON.parse(sessionStorage.getItem("auth_data"));
@@ -38,13 +40,58 @@ const Lecture = (props) => {
         setLecture(response.data.data);
       })
       .catch((error) => {
-        swal("Error", error.response.data.message, "error");
+        swal("Error", error.message, "error");
+      });
+  };
+
+  const getChat = () => {
+    if (!token) {
+      return;
+    }
+    const GET_URL = `http://localhost:8000/api/v1/chat/${lectureId}`;
+    const header_config = {
+      headers: { Authorization: `Bearer ${token.token}` },
+    };
+    axios
+      .get(GET_URL, header_config)
+      .then((response) => {
+        setChat(response.data.data.chats);
+        console.log(response.data.data.chats);
+      })
+      .catch((error) => {
+        swal("Error", error.message, "error");
+      });
+  };
+
+  const createChat = () => {
+    if (!token) {
+      return;
+    }
+    if (!text) {
+      return;
+    }
+    const POST_URL = `http://localhost:8000/api/v1/chat`;
+    const header_config = {
+      headers: { Authorization: `Bearer ${token.token}` },
+    };
+    axios
+      .post(
+        POST_URL,
+        { lectureId, authorName: token.username, authorId: token._id, text },
+        header_config
+      )
+      .then((response) => {
+        getChat();
+      })
+      .catch((error) => {
+        swal("Error", error.message, "error");
       });
   };
 
   useEffect(
     () => {
       getLecture();
+      getChat();
     },
     // eslint-disable-next-line
     [token]
@@ -128,38 +175,29 @@ const Lecture = (props) => {
           <div className="lecture-right">
             <div className="chatbox">
               <div className="chats">
-                <ChatFrom
-                  img={User}
-                  username="mita"
-                  text="Hey, can anyone help me with a doubt?"
-                />
-                <ChatTo text="Yeah sure, shoot" />
-                <ChatFrom
-                  img={User}
-                  username="mita"
-                  text="What is STL Algorithms?"
-                />
-                <ChatTo text="STL in C++ is the Standard Templates Library" />
-                <ChatFrom
-                  img={User}
-                  username="mita"
-                  text="It was very helpful to get the full form"
-                />
-                <ChatTo text="What else did you expected to get?" />
-                <ChatFrom
-                  img={User}
-                  username="mita"
-                  text="Explain me what is standard templates library!"
-                />
-                <ChatTo text="Well that's what google is for" />
+                {chat.map((el, ind) => {
+                  return el.authorName === token.username ? (
+                    <ChatTo text={el.text} key={ind} />
+                  ) : (
+                    <ChatFrom
+                      img={User}
+                      username={el.authorName}
+                      text={el.text}
+                      key={ind}
+                    />
+                  );
+                })}
               </div>
               <div className="text-send">
                 <input
                   type="text"
                   className="ip-type-msg"
                   placeholder="Type a message here..."
+                  onChange={(e) => {
+                    setText(e.target.value);
+                  }}
                 />
-                <button className="btn-send">
+                <button className="btn-send" onClick={createChat}>
                   <span className="material-icons ic-btn">send</span>
                 </button>
               </div>
