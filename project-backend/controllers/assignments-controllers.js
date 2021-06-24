@@ -1,98 +1,69 @@
 // const { validationResult } = require("express-validator");
 // const HttpError = require("../models/http-error");
-const Lecture = require("../models/lecture");
-const path = require("path");
-const multer = require("multer");
+const Assignment = require("../models/assignment");
 
-// Set The Storage Engine
-const storage = multer.diskStorage({
-  destination: "./public/uploads/",
-  filename: function (req, file, cb) {
-    cb(
-      null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+const createAssignment = async (req, res, next) => {
+  const { title, description, classroom, chapter, dueTime } = req.body;
+  const createdAt = Number(new Date());
+
+  const createdAssignment = new Assignment({
+    title,
+    description,
+    classroom,
+    chapter,
+    dueTime,
+    createdAt,
+  });
+
+  try {
+    await createdAssignment.save();
+  } catch (err) {
+    console.error(
+      "Error while saving created assignment in createAssignment",
+      err
     );
-  },
-});
-
-// Init Upload
-const upload = multer({
-  storage: storage,
-}).single("myfile");
-
-const createLecture = async (req, res, next) => {
-  upload(req, res, async (err) => {
-    const { title, description, classroom } = req.body;
-    if (err) {
-      res.status(500).json({
-        error: err,
-      });
-    } else {
-      if (req.file == undefined) {
-        res.status(404).json({
-          message: "can't find file",
-        });
-      } else {
-        const createdLecture = new Lecture({
-          title,
-          description,
-          classroom,
-          url: `uploads/${req.file.filename}`,
-          createdAt: Date.now(),
-        });
-
-        try {
-          await createdLecture.save();
-        } catch (err) {
-          console.error(
-            "Error while saving created lecture in createLecture",
-            err
-          );
-          return next(
-            new HttpError("create lecture failed, please try again later.", 500)
-          );
-        }
-        res.status(201).json({
-          msg: "Lecture Uploaded",
-          file: createdLecture._doc,
-        });
-      }
-    }
+    return next(
+      new HttpError("create assignment failed, please try again later.", 500)
+    );
+  }
+  res.status(201).json({
+    msg: "assignment Uploaded",
+    file: createdAssignment._doc,
   });
 };
 
-const getLectures = async (req, res, next) => {
+const getAssignments = async (req, res, next) => {
   let classroomId = req.params.cid;
 
   try {
-    lectures = await Lecture.find({ classroom: classroomId });
+    assignments = await Assignment.find({ classroom: classroomId });
   } catch (err) {
-    console.error("Error while reading getLectures", err);
+    console.error("Error while reading getAssignments", err);
     return next(new HttpError("db read failed, please try again later.", 500));
   }
 
   res.status(201).json({
-    message: "read lectures successfully",
-    data: lectures,
+    message: "read assignments successfully",
+    data: assignments,
   });
 };
 
-const getLectureById = async (req, res, next) => {
-  let lectureId = req.params.lid;
+const getAssignmentById = async (req, res, next) => {
+  let assignmentId = req.params.lid;
 
   try {
-    lecture = await Lecture.findById(lectureId);
+    assignment = await Assignment.findById(assignmentId);
   } catch (err) {
-    console.error("Error while reading getLectures", err);
+    console.error("Error while reading getAssignmentById", err);
     return next(new HttpError("db read failed, please try again later.", 500));
   }
 
   res.status(201).json({
-    message: "read lectures successfully",
-    data: lecture,
+    message: "read assignment successfully",
+    data: assignment,
   });
 };
 
-exports.createLecture = createLecture;
-exports.getLectures = getLectures;
-exports.getLectureById = getLectureById;
+exports.createAssignment = createAssignment;
+exports.getAssignments = getAssignments;
+exports.getAssignmentById = getAssignmentById;
