@@ -1,13 +1,24 @@
-import '../../../public/Classroom/main.css';
+import "../../../public/Classroom/main.css";
+import { useHistory } from "react-router-dom";
 
-const Assignment = () => {
+const Assignment = (props) => {
+  let history = useHistory();
   return (
-    <div className="assignment lec__card">
-      <h1 className="assignment-title">Introduction to Data Mining</h1>
-      <h3 className="assignment-mark">Mark : 40</h3>
-      <h3 className="assignment-due">Due : 18/08/2021</h3>
+    <div
+      className="assignment lec__card"
+      onClick={() => {
+        history.push(
+          `/class/${props.classId}/assignment/${props.assignment._id}`
+        );
+      }}
+    >
+      <h1 className="assignment-title">{props.assignment.title}</h1>
+      <h3 className="assignment-mark">Mark : {props.assignment.totalmark}</h3>
+      <h3 className="assignment-due">
+        Due : {new Date(props.assignment.dueTime).toLocaleDateString()}
+      </h3>
     </div>
   );
-}
+};
 
 export default Assignment;

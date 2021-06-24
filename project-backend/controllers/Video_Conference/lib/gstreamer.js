@@ -8,7 +8,7 @@ const fs = require('fs');
 
 const { getCodecInfoFromRtpParameters } = require('../../../utils/recording_utils');
 
-const RECORD_FILE_LOCATION_PATH = process.env.RECORD_FILE_LOCATION_PATH || `/home/shashank/Documents/Code/git/Project-X/project-backend/files`;
+const RECORD_FILE_LOCATION_PATH = process.env.RECORD_FILE_LOCATION_PATH || `${__dirname}/../../../public/uploads`;
 
 const GSTREAMER_DEBUG_LEVEL = process.env.GSTREAMER_DEBUG_LEVEL || 3;
 const GSTREAMER_COMMAND = 'gst-launch-1.0';

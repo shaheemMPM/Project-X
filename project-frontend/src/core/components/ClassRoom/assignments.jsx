@@ -20,11 +20,17 @@ const Assignments = (props) => {
               <h1 className="lectures__add__plus">+</h1>
             </div>
           ) : null}
-
-          <Assignment />
-          <Assignment />
-          <Assignment />
-          <Assignment />
+          {props.assignments
+            ? props.assignments.map((el, ind) => {
+                return (
+                  <Assignment
+                    key={ind}
+                    assignment={el}
+                    classId={props.classId}
+                  />
+                );
+              })
+            : null}
         </div>
       </div>
     </div>

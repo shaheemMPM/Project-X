@@ -5,7 +5,6 @@ import Lecture from "./lecture";
 
 const Lectures = (props) => {
   let history = useHistory();
-
   return (
     <div className="lectures">
       <h1 className="lectures__heading">Lectures</h1>
@@ -21,11 +20,18 @@ const Lectures = (props) => {
               <h1 className="lectures__add__plus">+</h1>
             </div>
           ) : null}
-
-          <Lecture />
-          <Lecture />
-          <Lecture />
-          <Lecture />
+          {props.lectures
+            ? props.lectures.map((el, ind) => {
+                return (
+                  <Lecture
+                    key={ind}
+                    classId={props.classId}
+                    id={el._id}
+                    lecture={el}
+                  />
+                );
+              })
+            : null}
         </div>
       </div>
     </div>

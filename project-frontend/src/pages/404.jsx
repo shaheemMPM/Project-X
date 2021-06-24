@@ -1,4 +1,4 @@
-import '../public/404/404.css';
+import "../public/404/404.css";
 
 const PageNotFound = () => {
   return (
@@ -8,6 +8,6 @@ const PageNotFound = () => {
       </div>
     </div>
   );
-}
+};
 
 export default PageNotFound;

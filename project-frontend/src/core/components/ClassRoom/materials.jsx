@@ -20,11 +20,13 @@ const Materials = (props) => {
               <h1 className="lectures__add__plus">+</h1>
             </div>
           ) : null}
-
-          <Material />
-          <Material />
-          <Material />
-          <Material />
+          {props.materials
+            ? props.materials.map((el, ind) => {
+                return (
+                  <Material key={ind} material={el} classId={props.classId} />
+                );
+              })
+            : null}
         </div>
       </div>
     </div>

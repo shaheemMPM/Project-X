@@ -1,13 +1,19 @@
-import '../../../public/Classroom/main.css';
-import pdf from '../../../public/Classroom/file-pdf.png';
+import "../../../public/Classroom/main.css";
+import pdf from "../../../public/Classroom/file-pdf.png";
 
-const Material = () => {
+const Material = (props) => {
   return (
-    <div className="material lec__card">
-      <img className="material-file-icon" src={pdf} alt="pdf" />
-      <h1 className="material-file-name">Introduction to Data Mining</h1>
-    </div>
+    <a
+      href={`https://localhost:8883/${props.material.url}`}
+      target="_blank"
+      rel="noreferrer"
+    >
+      <div className="material lec__card">
+        <img className="material-file-icon" src={pdf} alt="pdf" />
+        <h1 className="material-file-name">{props.material.title}</h1>
+      </div>
+    </a>
   );
-}
+};
 
 export default Material;

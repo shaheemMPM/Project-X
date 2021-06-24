@@ -10,6 +10,10 @@ const HttpError = require("./models/http-error");
 const userRoutes = require("./routes/user-routes");
 const classroomRoutes = require("./routes/classroom-routes");
 const conferenceRoutes = require("./routes/conference-routes");
+const lectureRoutes = require("./routes/lecture-routes");
+const materialRoutes = require("./routes/materials-routes");
+const assignmentsRoutes = require("./routes/assignments-routes");
+const chatRoutes = require("./routes/chat-routes");
 
 // Importing Core Modules
 const mongoose = require("mongoose");
@@ -125,6 +129,23 @@ if (config.trustProxy)
 {
     app.set('trust proxy', config.trustProxy);
 }
+// Public Folder
+app.use(express.static("./public"));
+
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "Success",
+    message: "Welcome to Project-X Server",
+  });
+});
+
+app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/classroom", classroomRoutes);
+app.use("/api/v1/lecture", lectureRoutes);
+app.use("/api/v1/material", materialRoutes);
+app.use("/api/v1/assignment", assignmentsRoutes);
+app.use("/api/v1/chat", chatRoutes);
+app.use("/api/v1/conference", conferenceRoutes)
 
 app.use(session);
 
@@ -591,9 +612,9 @@ async function runHttpsServer()
         });
     });
 
-    app.use("/api/v1/user", userRoutes);
-    app.use("/api/v1/classroom", classroomRoutes);
-    app.use("/api/v1/conference", conferenceRoutes)
+    // app.use("/api/v1/user", userRoutes);
+    // app.use("/api/v1/classroom", classroomRoutes);
+    // app.use("/api/v1/conference", conferenceRoutes)
 
     
     app.use('/.well-known/acme-challenge', express.static('public/.well-known/acme-challenge'));

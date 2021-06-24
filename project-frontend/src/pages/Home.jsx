@@ -32,7 +32,7 @@ const Home = () => {
     if (!token) {
       return;
     }
-    const GET_URL = "https://192.168.0.103:8883/api/v1/classroom/my";
+    const GET_URL = "https://localhost:8883/api/v1/classroom/my";
     const header_config = {
       headers: { Authorization: `Bearer ${token.token}` },
     };
@@ -50,7 +50,7 @@ const Home = () => {
     if (!token) {
       return;
     }
-    const GET_URL = "https://192.168.0.103:8883/api/v1/classroom/joined";
+    const GET_URL = "https://localhost:8883/api/v1/classroom/joined";
     const header_config = {
       headers: { Authorization: `Bearer ${token.token}` },
     };

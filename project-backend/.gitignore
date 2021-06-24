@@ -3,3 +3,4 @@
 /certs
 /files/*
 dump.rdb
+/public/uploads/myfile-*
