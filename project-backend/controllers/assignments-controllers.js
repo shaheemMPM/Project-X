@@ -3,7 +3,8 @@
 const Assignment = require("../models/assignment");
 
 const createAssignment = async (req, res, next) => {
-  const { title, description, classroom, chapter, dueTime } = req.body;
+  const { title, description, classroom, chapter, dueTime, totalmark } =
+    req.body;
   const createdAt = Number(new Date());
 
   const createdAssignment = new Assignment({
@@ -12,6 +13,7 @@ const createAssignment = async (req, res, next) => {
     classroom,
     chapter,
     dueTime,
+    totalmark,
     createdAt,
   });
 
