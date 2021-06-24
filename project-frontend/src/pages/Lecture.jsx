@@ -55,8 +55,9 @@ const Lecture = (props) => {
     axios
       .get(GET_URL, header_config)
       .then((response) => {
-        setChat(response.data.data.chats);
-        console.log(response.data.data.chats);
+        if (!!response.data.data) {
+          setChat(response.data.data.chats);
+        }
       })
       .catch((error) => {
         swal("Error", error.message, "error");
@@ -81,6 +82,7 @@ const Lecture = (props) => {
         header_config
       )
       .then((response) => {
+        setText("");
         getChat();
       })
       .catch((error) => {
@@ -175,18 +177,20 @@ const Lecture = (props) => {
           <div className="lecture-right">
             <div className="chatbox">
               <div className="chats">
-                {chat.map((el, ind) => {
-                  return el.authorName === token.username ? (
-                    <ChatTo text={el.text} key={ind} />
-                  ) : (
-                    <ChatFrom
-                      img={User}
-                      username={el.authorName}
-                      text={el.text}
-                      key={ind}
-                    />
-                  );
-                })}
+                {!!chat
+                  ? chat.map((el, ind) => {
+                      return el.authorName === token.username ? (
+                        <ChatTo text={el.text} key={ind} />
+                      ) : (
+                        <ChatFrom
+                          img={User}
+                          username={el.authorName}
+                          text={el.text}
+                          key={ind}
+                        />
+                      );
+                    })
+                  : null}
               </div>
               <div className="text-send">
                 <input
