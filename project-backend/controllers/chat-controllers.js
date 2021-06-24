@@ -5,11 +5,10 @@ const Chat = require("../models/chat");
 const createChat = async (req, res, next) => {
   const { authorId, authorName, lectureId, text } = req.body;
   const createdAt = Number(new Date());
-
   let fullChat;
 
   try {
-    fullChat = await Chat.find({ lectureId });
+    fullChat = await Chat.findOne({ lectureId });
   } catch (err) {
     console.error("Error while reading createChat", err);
     return next(new HttpError("db read failed, please try again later.", 500));
@@ -48,10 +47,10 @@ const createChat = async (req, res, next) => {
 };
 
 const getChat = async (req, res, next) => {
-  let lectureId = req.params.cid;
+  let lectureId = req.params.lid;
 
   try {
-    fullChat = await Chat.find({ lectureId });
+    fullChat = await Chat.findOne({ lectureId });
   } catch (err) {
     console.error("Error while reading getChat", err);
     return next(new HttpError("db read failed, please try again later.", 500));
