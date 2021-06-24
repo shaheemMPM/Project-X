@@ -15,6 +15,7 @@ const classroomRoutes = require("./routes/classroom-routes");
 const lectureRoutes = require("./routes/lecture-routes");
 const materialRoutes = require("./routes/materials-routes");
 const assignmentsRoutes = require("./routes/assignments-routes");
+const chatRoutes = require("./routes/chat-routes");
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use("/api/v1/classroom", classroomRoutes);
 app.use("/api/v1/lecture", lectureRoutes);
 app.use("/api/v1/material", materialRoutes);
 app.use("/api/v1/assignment", assignmentsRoutes);
+app.use("/api/v1/chat", chatRoutes);
 
 app.use((req, res, next) => {
   console.error(`Could not find the route : ${req.originalUrl}`);
