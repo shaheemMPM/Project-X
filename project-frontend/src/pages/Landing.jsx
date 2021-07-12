@@ -161,8 +161,8 @@ const landing = () => {
                     data-wow-duration="1.3s"
                     data-wow-delay="0.8s"
                   >
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                    diam nonumy eirmod tempor
+                    {/* Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                    diam nonumy eirmod tempor */}
                   </p>
                   <Link
                     to="/signin"

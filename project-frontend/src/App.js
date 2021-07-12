@@ -15,6 +15,7 @@ import UploadLecture from "./pages/UploadLecture";
 import UploadMaterial from "./pages/UploadMaterial";
 import UploadAssignment from "./pages/UploadAssignment";
 import Lecture from "./pages/Lecture";
+import Assignment from "./pages/Assignment";
 import PageNotFound from "./pages/404";
 
 const App = (props) => {
@@ -64,6 +65,7 @@ const App = (props) => {
           component={UploadAssignment}
         />
         <Route path="/class/:id/lecture/:lid" exact component={Lecture} />
+        <Route path="/class/:id/assignment/:aid" exact component={Assignment} />
         <Route path="/create-classroom" exact component={CreateClassroom} />
         <Route path="/join-classroom" exact component={JoinClassroom} />
         <Route path="*" component={PageNotFound} />
