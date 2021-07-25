@@ -2,7 +2,9 @@
 
 const child_process = require('child_process');
 const { EventEmitter } = require('events');
-// const shell = require('shelljs');
+const FormData = require('form-data');
+const axios = require('axios');
+const Lecture = require('../../../models/lecture');
 const processKill = require('tree-kill');
 const fs = require('fs');
 
@@ -14,6 +16,7 @@ const GSTREAMER_DEBUG_LEVEL = process.env.GSTREAMER_DEBUG_LEVEL || 3;
 const GSTREAMER_COMMAND = 'gst-launch-1.0';
 const GSTREAMER_OPTIONS = '-v -e';
 
+
 module.exports = class GStreamer {
 	constructor(rtpParameters) {
 		this._rtpParameters = rtpParameters;
@@ -22,6 +25,66 @@ module.exports = class GStreamer {
 		this._createProcess();
 	}
 
+	async saveRecordingInLecture(filename, classroom)
+	{
+		const form = new FormData();
+		const filePath = `${__dirname}/../../../public/uploads/${filename}.mp4`;
+	
+		form.append("file", fs.createReadStream(filePath));
+	
+		const request_config = {
+			headers: {
+			...form.getHeaders(),
+			},
+		};
+	
+		let response, transcript, keywords;
+	
+		try {
+			response = await axios.post(
+			"http://localhost:8080",
+			form,
+			request_config
+			);
+			response = await axios.get("http://localhost:8080");
+	
+			if (response.data.transcript) {
+			transcript = response.data.transcript;
+			}
+			if (response.data.keywords) {
+			keywords = response.data.keywords;
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	
+		const createdLecture = new Lecture({
+			title,
+			description,
+			classroom,
+			url: `uploads/${filename}.mp4`,
+			transcript,
+			keywords,
+			createdAt: Date.now(),
+		});
+	
+		try {
+			await createdLecture.save();
+		} catch (err) {
+			console.error(
+			"Error while saving created lecture in createLecture",
+			err
+			);
+			return next(
+			new HttpError("create lecture failed, please try again later.", 500)
+			);
+		}
+		res.status(201).json({
+			msg: "Lecture Uploaded",
+			file: createdLecture._doc,
+		});
+	}
+	
 	_createProcess() {
 		// Use the commented out exe to create gstreamer dot file
 		// const exe = `GST_DEBUG=${GSTREAMER_DEBUG_LEVEL} GST_DEBUG_DUMP_DOT_DIR=./dump ${GSTREAMER_COMMAND} ${GSTREAMER_OPTIONS}`;
